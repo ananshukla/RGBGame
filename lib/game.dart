@@ -28,20 +28,21 @@ class _MyHomePageState extends State<MyHomePage> {
     }
    //return "RGB("+c[0].toString()+", "+c[1].toString()+", "+c[2].toString()+")";
   }
-Color z;
-String c;
+Color? z;
+String c ="";
 void pickcolor(){
     var random=Random();
     int y=random.nextInt(6);
     z=co[y];
-    int x1=int.parse(z.toString().substring(10,12),radix: 16);
-    int x2=int.parse(z.toString().substring(12,14),radix: 16);
-    int x3=int.parse(z.toString().substring(14,16),radix: 16);
-    c="RGB("+x1.toString()+", "+x2.toString()+", "+x3.toString()+")";
+    int x1 = (z!.r * 255).round();
+    int x2 = (z!.g * 255).round();
+    int x3 = (z!.b * 255).round();
+
+  c = "RGB($x1, $x2, $x3)";
 }
   showAlertDialog(BuildContext context) {  
   // Create button  
-  Widget okButton = FlatButton(  
+  Widget okButton = TextButton(  
     child: Text("OK",style: TextStyle(fontSize: 15),),  
     onPressed: () {  
       Navigator.of(context).pop();
@@ -94,7 +95,7 @@ void pickcolor(){
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
            Text(c,style: TextStyle(fontSize: 35)),
-           RaisedButton(onPressed: (){
+           ElevatedButton(onPressed: (){
                   setState(() {
                     co=[];
                     changecolors();
@@ -102,9 +103,12 @@ void pickcolor(){
                     ans="";
                   });
                 },
-                child: Text("CHANGE COLORS"),
-                color: Colors.deepPurple,
-                textColor: Colors.white,),
+                style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurple,   // was: color
+                        foregroundColor: Colors.white,        // was: textColor
+                                      ),
+              child: Text("CHANGE COLORS"),
+            ),
            Text(ans,style: TextStyle(fontSize: 20)),  
            Row(
              mainAxisAlignment: MainAxisAlignment.spaceAround,
